@@ -10,7 +10,7 @@ const UserManager = () => {
 
     const fetchLeaderboard = async () => {
         try {
-            const response = await axios.get('/api/leaderboard');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/leaderboard`);
             setUsers(response.data);
         } catch (error) {
             console.error('Error fetching leaderboard:', error);
@@ -24,7 +24,7 @@ const UserManager = () => {
     const handleAddUser = async () => {
         if (newUserName.trim()) {
             try {
-                await axios.post('/api/users', { name: newUserName });
+                await axios.post(`${process.env.REACT_APP_API_URL}/api/users`, { name: newUserName });
                 setNewUserName('');
                 toast.success("User created successfully!");
                 fetchLeaderboard();
@@ -37,7 +37,7 @@ const UserManager = () => {
     const handleClaimPoints = async () => {
         if (!selectedUserId) return;
         try {
-            const response = await axios.post('/api/claim', { userId: selectedUserId });
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/claim`, { userId: selectedUserId });
             setAwardedPoints(response.data.pointsClaimed);
             fetchLeaderboard();
         } catch (error) {
